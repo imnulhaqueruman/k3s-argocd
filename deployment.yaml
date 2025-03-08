@@ -71,12 +71,16 @@ spec:
       - name: ssh
         image: linuxserver/openssh-server
         ports:
-        - containerPort: 22
-          env:
-            - name: USER_NAME
-              value: root
-            - name: USER_PASSWORD
-              value: password
+        - containerPort: 2222
+        env:
+        - name: USER_NAME
+          value: "term"
+        - name: USER_PASSWORD
+          value: "term"
+        - name: PASSWORD_ACCESS
+          value: "true"
+        - name: SUDO_ACCESS
+          value: "true"
       volumes:
       - name: nginx-config
         configMap:
@@ -91,7 +95,12 @@ spec:
   selector:
     app: nginx
   ports:
-    - protocol: TCP
-      port: 22
-      targetPort: 22
+  - name: http
+    protocol: TCP
+    port: 80
+    targetPort: 80
+  - name: ssh
+    protocol: TCP
+    port: 22
+    targetPort: 2222
   type: ClusterIP
