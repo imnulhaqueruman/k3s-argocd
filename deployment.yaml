@@ -67,7 +67,16 @@ spec:
             memory: 128Mi
           limits:
             cpu: 250m
-            memory: 256Mi
+            memory: 256Mi 
+      - name: ssh
+        image: linuxserver/openssh-server
+        ports:
+        - containerPort: 22
+          env:
+            - name: USER_NAME
+              value: root
+            - name: USER_PASSWORD
+              value: password
       volumes:
       - name: nginx-config
         configMap:
@@ -83,6 +92,6 @@ spec:
     app: nginx
   ports:
     - protocol: TCP
-      port: 80
-      targetPort: 80
-  type: LoadBalancer
+      port: 22
+      targetPort: 22
+  type: NodePort
